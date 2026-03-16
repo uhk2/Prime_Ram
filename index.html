@@ -180,14 +180,77 @@
   .il [data-lang] { display: none; }
   .il [data-lang].active { display: inline; }
 
-  /* PRINT */
+  /* PRINT / PDF */
   @media print {
-    .lang-bar, .hero-scroll, .hero-cta { display: none !important; }
-    .hero { min-height: auto; padding: 3rem 2rem 2rem; margin-top: 0; }
+    @page { margin: 1.4cm 1.8cm; size: A4; }
+
+    /* Reset & base */
+    * { animation: none !important; transition: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { font-size: 10pt; background: white !important; }
+
+    /* Hide interactive chrome */
+    .lang-bar, .hero-scroll, .hero-cta, #pdf-btn { display: none !important; }
+
+    /* Reveal all hidden content */
     .reveal { opacity: 1 !important; transform: none !important; }
-    * { animation: none !important; transition: none !important; }
-    .bi-accordion-body { max-height: none !important; padding: 0 1.5rem 1.4rem !important; }
-    .sector-kpi-panel { max-height: none !important; }
+    .bi-accordion-body { max-height: none !important; padding: 0 1.5rem 1.2rem !important; overflow: visible !important; }
+    .sector-kpi-panel { max-height: none !important; overflow: visible !important; }
+
+    /* Sections: reduce padding, no page-break inside blocks */
+    .section { padding: 1.6rem 0 !important; }
+    .section-inner { max-width: 100% !important; }
+    .section-lead { margin-bottom: 1.2rem !important; }
+
+    /* Hero: compact cover block */
+    .hero { margin-top: 0 !important; min-height: auto !important; padding: 2rem 0 1.8rem !important; page-break-after: always; }
+    .hero h1 { font-size: 2rem !important; }
+    .hero-sub { font-size: 0.95rem !important; margin-bottom: 0 !important; }
+    .hero::before, .hero::after { display: none; }
+
+    /* No orphan elements */
+    h2, h3, h4 { page-break-after: avoid; }
+    p { orphans: 3; widows: 3; }
+
+    /* Accordion cards: always show, no break inside */
+    .bi-accordion { page-break-inside: avoid; border: 1pt solid #d0daf5 !important; margin-bottom: 0.5rem; }
+    .bi-grid { gap: 0.4rem !important; margin-bottom: 1.2rem !important; }
+
+    /* Layers diagram: keep together */
+    .layers-wrapper { page-break-inside: avoid; padding: 1.2rem !important; }
+    .layers-flow { row-gap: 0.8rem !important; }
+    .layer-icon-wrap { width: 44px !important; height: 44px !important; font-size: 1.2rem !important; }
+    .platinum-callout { margin-top: 1rem !important; padding: 1rem !important; }
+
+    /* Benefits section */
+    .benefits-intro { gap: 2rem !important; margin-bottom: 1.5rem !important; }
+    .benefit-item { padding: 0.9rem !important; margin-bottom: 0.3rem; page-break-inside: avoid; }
+    .benefit-num { font-size: 1.4rem !important; }
+
+    /* Sectors: show all KPI panels, no break inside each */
+    .sectors-grid { gap: 0.4rem !important; }
+    .sector-btn { padding: 0.6rem 0.8rem !important; font-size: 0.8rem !important; }
+    .sector-kpi-panel { margin-top: 0.3rem !important; }
+    .sector-kpi-inner { padding: 0.8rem !important; }
+    .kpi-item { font-size: 0.75rem !important; gap: 0.4rem !important; }
+    .sectors-title { margin-bottom: 0.7rem !important; }
+
+    /* Quote block: keep together */
+    .quote-block { page-break-inside: avoid; padding: 1.5rem !important; margin-top: 1.5rem !important; }
+    .quote-block::before { font-size: 7rem !important; }
+    .quote-block p { font-size: 1rem !important; }
+
+    /* Phases: keep each card together, reduce padding */
+    .phases-row { gap: 0.8rem !important; page-break-inside: avoid; }
+    .phase-card { padding: 1.2rem !important; page-break-inside: avoid; }
+    .phase-num { font-size: 2.5rem !important; }
+
+    /* CTA: minimal */
+    .cta-section { padding: 2rem 0 !important; }
+    .cta-section h2 { font-size: 1.5rem !important; }
+    .cta-pill { display: none !important; }
+
+    /* Footer */
+    .footer { padding: 0.8rem !important; }
   }
 </style>
 </head>
@@ -533,9 +596,9 @@
       </h2>
       <div class="divider"></div>
       <p class="section-lead">
-        <span data-lang="es" class="active">Antes de implementar, diagnosticamos. Cada proyecto comienza con un Assessment de aprox 2 semanas para auditar tus datos, mapear tus procesos y dimensionar el alcance real sin compromisos.</span>
-        <span data-lang="en">Before implementing, we diagnose. Every project starts with an aproximately 2-week Assessment to audit your data, map your processes, and define the real scope — no commitments.</span>
-        <span data-lang="ko">구현 전에 진단합니다. 모든 프로젝트는 데이터를 감사하고 프로세스를 매핑하며 부담 없이 실제 범위를 정의하는 2주 평가로 시작합니다.</span>
+        <span data-lang="es" class="active">Antes de implementar, diagnosticamos. Cada proyecto comienza con un Assessment de 2 a 4 semanas para auditar tus datos, mapear tus procesos y dimensionar el alcance real sin compromisos.</span>
+        <span data-lang="en">Before implementing, we diagnose. Every project starts with a 2 to 4-week Assessment to audit your data, map your processes, and define the real scope — no commitments.</span>
+        <span data-lang="ko">구현 전에 진단합니다. 모든 프로젝트는 데이터를 감사하고 프로세스를 매핑하며 부담 없이 실제 범위를 정의하는 2~4주 평가로 시작합니다.</span>
       </p>
     </div>
     <div class="phases-row reveal">
@@ -555,7 +618,7 @@
         <div class="phase-num">3</div>
         <span class="phase-tag il"><span data-lang="es" class="active">Fase 3</span><span data-lang="en">Phase 3</span><span data-lang="ko">3단계</span></span>
         <h3><span data-lang="es" class="active">Inteligencia Artificial</span><span data-lang="en">Artificial Intelligence</span><span data-lang="ko">인공지능</span></h3>
-        <p><span data-lang="es" class="active">Con la infraestructura de datos madura, integramos modelos de IA entrenados sobre tu propia historia operativa: detección automática de anomalías, predicción de demanda, control de calidad visual y mantenimiento predictivo. La diferencia es que los modelos trabajan sobre tus datos, no sobre suposiciones genéricas.</span><span data-lang="en">With a mature data infrastructure in place, we integrate AI models trained on your own operational history: automatic anomaly detection, demand forecasting, visual quality control, and predictive maintenance. The difference is that the models work on your data — not on generic assumptions.</span><span data-lang="ko">성숙한 데이터 인프라를 갖추면, 귀사 자체 운영 이력을 학습한 AI 모델을 통합합니다: 자동 이상 감지, 수요 예측, 시각적 품질 관리, 예측적 유지보수. 차이점은 모델이 일반적인 가정이 아닌 귀사의 데이터를 기반으로 작동한다는 점입니다.</span></p>
+        <p><span data-lang="es" class="active">Modelos de IA entrenados sobre tu propia historia operativa: detección de anomalías, predicción de demanda y mantenimiento predictivo. Los algoritmos trabajan sobre tus datos reales, no suposiciones genéricas.</span><span data-lang="en">AI models trained on your own operational history: anomaly detection, demand forecasting, and predictive maintenance. The algorithms work on your real data — not generic assumptions.</span><span data-lang="ko">귀사 운영 이력을 학습한 AI 모델: 이상 감지, 수요 예측, 예측적 유지보수. 알고리즘은 일반적인 가정이 아닌 귀사의 실제 데이터를 기반으로 작동합니다.</span></p>
       </div>
     </div>
   </div>
@@ -563,7 +626,7 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <div class="cta-pill il"><span data-lang="es" class="active">Discovery de aproximadamente 2 semanas · Sin compromiso</span><span data-lang="en">2 week Discovery · No commitment</span><span data-lang="ko">2 주 디스커버리 · 부담 없이</span></div>
+  <div class="cta-pill il"><span data-lang="es" class="active">Discovery de 2 a 4 semanas · Sin compromiso</span><span data-lang="en">2 to 4-week Discovery · No commitment</span><span data-lang="ko">2~4주 디스커버리 · 부담 없이</span></div>
   <h2><span data-lang="es" class="active">¿Listo para tomar decisiones<br>basadas en datos?</span><span data-lang="en">Ready to make<br>data-driven decisions?</span><span data-lang="ko">데이터 기반<br>의사결정을 시작할 준비가 되셨나요?</span></h2>
 </section>
 

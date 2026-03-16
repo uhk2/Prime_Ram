@@ -184,8 +184,11 @@
   @media print {
     @page { margin: 1.4cm 1.8cm; size: A4; }
 
-    /* Reset & base */
-    * { animation: none !important; transition: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* Force color preservation everywhere */
+    * { animation: none !important; transition: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important; }
     body { font-size: 10pt; background: white !important; }
 
     /* Hide interactive chrome */
@@ -196,61 +199,80 @@
     .bi-accordion-body { max-height: none !important; padding: 0 1.5rem 1.2rem !important; overflow: visible !important; }
     .sector-kpi-panel { max-height: none !important; overflow: visible !important; }
 
-    /* Sections: reduce padding, no page-break inside blocks */
+    /* ── HERO: full-color cover page ── */
+    .hero {
+      margin-top: 0 !important;
+      min-height: 55vh !important;
+      padding: 3.5rem 2rem 3rem !important;
+      page-break-after: always !important;
+      background-color: #0B1F3A !important;
+    }
+    .hero::before, .hero::after { display: none !important; }
+    .hero-inner { color: white !important; }
+    .hero h1 { font-size: 2.2rem !important; color: #FFFFFF !important; opacity: 1 !important; }
+    .hero h1 em { color: #4A82FF !important; }
+    .hero-eyebrow {
+      opacity: 1 !important;
+      color: #4A82FF !important;
+      border-color: rgba(74,130,255,0.5) !important;
+      background: transparent !important;
+    }
+    .hero-sub { color: rgba(255,255,255,0.75) !important; opacity: 1 !important; margin-bottom: 0 !important; }
+
+    /* Sections: reduce padding */
     .section { padding: 1.6rem 0 !important; }
     .section-inner { max-width: 100% !important; }
     .section-lead { margin-bottom: 1.2rem !important; }
-
-    /* Hero: compact cover block */
-    .hero { margin-top: 0 !important; min-height: auto !important; padding: 2rem 0 1.8rem !important; page-break-after: always; }
-    .hero h1 { font-size: 2rem !important; }
-    .hero-sub { font-size: 0.95rem !important; margin-bottom: 0 !important; }
-    .hero::before, .hero::after { display: none; }
 
     /* No orphan elements */
     h2, h3, h4 { page-break-after: avoid; }
     p { orphans: 3; widows: 3; }
 
-    /* Accordion cards: always show, no break inside */
+    /* Accordion cards */
     .bi-accordion { page-break-inside: avoid; border: 1pt solid #d0daf5 !important; margin-bottom: 0.5rem; }
     .bi-grid { gap: 0.4rem !important; margin-bottom: 1.2rem !important; }
 
-    /* Layers diagram: keep together */
-    .layers-wrapper { page-break-inside: avoid; padding: 1.2rem !important; }
+    /* Layers diagram */
+    .layers-wrapper { page-break-inside: avoid; padding: 1.2rem !important; background-color: #0B1F3A !important; }
     .layers-flow { row-gap: 0.8rem !important; }
     .layer-icon-wrap { width: 44px !important; height: 44px !important; font-size: 1.2rem !important; }
-    .platinum-callout { margin-top: 1rem !important; padding: 1rem !important; }
+    .platinum-callout { margin-top: 1rem !important; padding: 1rem !important; background-color: rgba(138,170,191,0.12) !important; }
 
-    /* Benefits section */
+    /* Benefits */
     .benefits-intro { gap: 2rem !important; margin-bottom: 1.5rem !important; }
     .benefit-item { padding: 0.9rem !important; margin-bottom: 0.3rem; page-break-inside: avoid; }
     .benefit-num { font-size: 1.4rem !important; }
 
-    /* Sectors: show all KPI panels, no break inside each */
+    /* Sectors: prevent each button+panel pair from splitting across pages */
     .sectors-grid { gap: 0.4rem !important; }
+    .sectors-grid > div { page-break-inside: avoid !important; }
     .sector-btn { padding: 0.6rem 0.8rem !important; font-size: 0.8rem !important; }
-    .sector-kpi-panel { margin-top: 0.3rem !important; }
+    .sector-btn.active { background-color: #0B1F3A !important; color: #FFFFFF !important; }
+    .sector-kpi-panel { margin-top: 0.3rem !important; background-color: #0B1F3A !important; }
     .sector-kpi-inner { padding: 0.8rem !important; }
-    .kpi-item { font-size: 0.75rem !important; gap: 0.4rem !important; }
+    .kpi-item { font-size: 0.75rem !important; gap: 0.4rem !important; color: rgba(255,255,255,0.85) !important; }
     .sectors-title { margin-bottom: 0.7rem !important; }
 
-    /* Quote block: keep together */
-    .quote-block { page-break-inside: avoid; padding: 1.5rem !important; margin-top: 1.5rem !important; }
+    /* Quote block */
+    .quote-block { page-break-inside: avoid; padding: 1.5rem !important; margin-top: 1.5rem !important; background-color: #0B1F3A !important; }
     .quote-block::before { font-size: 7rem !important; }
-    .quote-block p { font-size: 1rem !important; }
+    .quote-block p { font-size: 1rem !important; color: #FFFFFF !important; }
+    .quote-block cite { color: rgba(255,255,255,0.5) !important; }
 
-    /* Phases: keep each card together, reduce padding */
+    /* Phases */
     .phases-row { gap: 0.8rem !important; page-break-inside: avoid; }
     .phase-card { padding: 1.2rem !important; page-break-inside: avoid; }
+    .phase-card:nth-child(2) { background-color: #0B1F3A !important; }
+    .phase-card:nth-child(3) { background-color: #1A5CFF !important; }
     .phase-num { font-size: 2.5rem !important; }
 
-    /* CTA: minimal */
-    .cta-section { padding: 2rem 0 !important; }
-    .cta-section h2 { font-size: 1.5rem !important; }
+    /* CTA */
+    .cta-section { padding: 2rem 0 !important; background-color: #0B1F3A !important; page-break-inside: avoid; }
+    .cta-section h2 { font-size: 1.5rem !important; color: #FFFFFF !important; }
     .cta-pill { display: none !important; }
 
     /* Footer */
-    .footer { padding: 0.8rem !important; }
+    .footer { padding: 0.8rem !important; background-color: #060E1B !important; }
   }
 </style>
 </head>
